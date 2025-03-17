@@ -26,9 +26,18 @@ public class GameBoard {
         player1 = new Player(player1Symbol, name1);
         player2 = new Player(player2Symbol, name2);
 
+        System.out.println("Directions:\n To choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         while (true) {
             setUpBoard();
             printBoard();
+            System.out.print(player1.getName() + " choose a move");
+            int player1Move = scan.nextInt();
+            for (int i = gameBoard.length - 1; i >= 0; i--) {
+//                gameBoard[player1Move-1][i]
+                if (gameBoard[player1Move-1][i].getSymbol().equals("＿")) {
+                    gameBoard[player1Move-1][i] = new Space(player1.getSymbol());
+                }
+            }
         }
 
 
