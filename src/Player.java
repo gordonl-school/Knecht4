@@ -1,5 +1,16 @@
 public class Player extends Space {
-    public Player(String symbol) {
-        super(symbol);
+    private boolean won;
+    private String name;
+
+    public Player(String name) {
+        super(name);
+        won = false;
     }
+
+    public boolean isWon() {
+        return won;
+    }
+
+
+
 }
