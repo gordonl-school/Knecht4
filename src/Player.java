@@ -2,8 +2,9 @@ public class Player extends Space {
     private boolean won;
     private String name;
 
-    public Player(String name) {
-        super(name);
+    public Player(String symbol, String name) {
+        super(symbol);
+        this.name = name;
         won = false;
     }
 
@@ -11,6 +12,7 @@ public class Player extends Space {
         return won;
     }
 
-
-
+    public String getName() {
+        return name;
+    }
 }
