@@ -1,15 +1,28 @@
+import java.util.*;
+
 public class GameBoard {
     private Space[][] gameBoard;
     private String player1;
     private String player2;
+    private String player1Symbol;
+    private String player2Symbol;
+    private Scanner scan;
 
     public GameBoard(String player1, String player2) {
         this.player1 = player1;
         this.player2 = player2;
         gameBoard = new Space[6][7];
+        scan = new Scanner(System.in);
     }
 
     public void start() {
+        System.out.print("Enter Player 1: ");
+        player1 = scan.nextLine();
+        System.out.print("Enter Player 2: ");
+        player2 = scan.nextLine();
+        System.out.println("Symbol 1:" + player1Symbol);
+        System.out.println("Symbol 2: " + player2Symbol);
+        selectSymbol();
         setUpBoard();
         printBoard();
     }
@@ -30,5 +43,27 @@ public class GameBoard {
             System.out.println();
         }
     }
+
+    public void selectSymbol() {
+        String[] symbols = {"\uD83D\uDD34", "\uD83D\uDFE1", "\uD83C\uDF49", "\uD83C\uDF4A"};
+        System.out.println("List of Symbols: ");
+        for (int i = 1; i <= symbols.length; i++) {
+            System.out.println(i + ". " + symbols[i-1]);
+        }
+        System.out.print("Player 1, select a symbol: ");
+        int symbol1 = scan.nextInt();
+        player1Symbol = symbols[symbol1-1];
+        while (true) {
+            System.out.print("Player 2, select a symbol: ");
+            int symbol2 = scan.nextInt();
+            player2Symbol = symbols[symbol2-1];
+            if (player1Symbol.equals(player2Symbol)) {
+                System.out.println("You cannot choose the same symbols. Choose again.");
+                continue;
+            }
+            break;
+        }
+    }
+
 
 }
