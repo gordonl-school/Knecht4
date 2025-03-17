@@ -20,14 +20,18 @@ public class GameBoard {
         String name1 = scan.nextLine();
         System.out.print("Enter Player 2: ");
         String name2 = scan.nextLine();
-
-        selectSymbol();
+        selectSymbol(name1, name2);
         System.out.println("Symbol 1:" + player1Symbol);
         System.out.println("Symbol 2: " + player2Symbol);
         player1 = new Player(player1Symbol, name1);
         player2 = new Player(player2Symbol, name2);
-        setUpBoard();
-        printBoard();
+
+        while (true) {
+            setUpBoard();
+            printBoard();
+        }
+
+
     }
 
     public void setUpBoard() {
@@ -47,17 +51,17 @@ public class GameBoard {
         }
     }
 
-    public void selectSymbol() {
+    public void selectSymbol(String name1, String name2) {
         String[] symbols = {"\uD83D\uDD34", "\uD83D\uDFE1", "\uD83C\uDF49", "\uD83C\uDF4A"};
         System.out.println("List of Symbols: ");
         for (int i = 1; i <= symbols.length; i++) {
             System.out.println(i + ". " + symbols[i-1]);
         }
-        System.out.print(player1.getName() + ", select a symbol: ");
+        System.out.print(name1 + ", select a symbol: ");
         int symbol1 = scan.nextInt();
         player1Symbol = symbols[symbol1-1];
         while (true) {
-            System.out.print(player2.getName() + ", select a symbol: ");
+            System.out.print(name2 + ", select a symbol: ");
             int symbol2 = scan.nextInt();
             player2Symbol = symbols[symbol2-1];
             if (player1Symbol.equals(player2Symbol)) {
