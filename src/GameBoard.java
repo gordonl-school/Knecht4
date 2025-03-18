@@ -25,17 +25,18 @@ public class GameBoard {
         System.out.println("Symbol 2: " + player2Symbol);
         player1 = new Player(player1Symbol, name1);
         player2 = new Player(player2Symbol, name2);
+        setUpBoard();
 
         System.out.println("Directions:\n To choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         while (true) {
-            setUpBoard();
             printBoard();
-            System.out.print(player1.getName() + " choose a move");
+            System.out.print(player1.getName() + " choose a move: ");
             int player1Move = scan.nextInt();
+            //This is going from the bottom row to the top row via the same col.
             for (int i = gameBoard.length - 1; i >= 0; i--) {
-//                gameBoard[player1Move-1][i]
-                if (gameBoard[player1Move-1][i].getSymbol().equals("＿")) {
-                    gameBoard[player1Move-1][i] = new Space(player1.getSymbol());
+                if (gameBoard[i][player1Move-1].getSymbol().equals("＿")) {
+                    gameBoard[i][player1Move-1] = new Space(player1.getSymbol());
+                    break;
                 }
             }
         }
