@@ -32,13 +32,11 @@ public class GameBoard {
             printBoard();
             System.out.print(player1.getName() + " choose a move: ");
             int player1Move = scan.nextInt();
-            //This is going from the bottom row to the top row via the same col.
-            for (int i = gameBoard.length - 1; i >= 0; i--) {
-                if (gameBoard[i][player1Move-1].getSymbol().equals("＿")) {
-                    gameBoard[i][player1Move-1] = new Space(player1.getSymbol());
-                    break;
-                }
-            }
+            move(player1Move, player1);
+            printBoard();
+            System.out.print(player2.getName() + " choose a move: ");
+            int player2Move = scan.nextInt();
+            move(player2Move, player2);
         }
 
 
@@ -47,7 +45,7 @@ public class GameBoard {
     public void setUpBoard() {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
-                gameBoard[i][j] = new Space("＿");
+                gameBoard[i][j] = new Space("\uD83D\uDD18");
             }
         }
     }
@@ -79,6 +77,16 @@ public class GameBoard {
                 continue;
             }
             break;
+        }
+    }
+
+    public void move(int playerMove, Player player) {
+        //This is going from the bottom row to the top row via the same col.
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            if (gameBoard[i][playerMove-1].getSymbol().equals("\uD83D\uDD18")) {
+                gameBoard[i][playerMove-1] = new Space(player.getSymbol());
+                break;
+            }
         }
     }
 
