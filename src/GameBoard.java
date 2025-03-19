@@ -30,13 +30,19 @@ public class GameBoard {
         System.out.println("Directions:\n To choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         while (true) {
             printBoard();
+
+
             System.out.print(player1.getName() + " choose a move: ");
             int player1Move = scan.nextInt();
             move(player1Move, player1);
+
+
+            clear();
             printBoard();
             System.out.print(player2.getName() + " choose a move: ");
             int player2Move = scan.nextInt();
             move(player2Move, player2);
+            clear();
         }
 
 
@@ -46,21 +52,28 @@ public class GameBoard {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
                 gameBoard[i][j] = new Space("\uD83D\uDD18");
+//                gameBoard[i][j] = new Space("  ");
+
             }
         }
     }
 
     public void printBoard() {
+        System.out.print("-------------------------------");
+        System.out.println();
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
+                System.out.print("|");
                 System.out.print(gameBoard[i][j].getSymbol() + " ");
             }
+            System.out.print("|");
             System.out.println();
+            System.out.println("-------------------------------");
         }
     }
 
     public void selectSymbol(String name1, String name2) {
-        String[] symbols = {"\uD83D\uDD34", "\uD83D\uDFE1", "\uD83C\uDF49", "\uD83C\uDF4A"};
+        String[] symbols = {"\uD83D\uDD34", "\uD83C\uDF49", "\uD83C\uDF4A"};
         System.out.println("List of Symbols: ");
         for (int i = 1; i <= symbols.length; i++) {
             System.out.println(i + ". " + symbols[i-1]);
@@ -84,9 +97,16 @@ public class GameBoard {
         //This is going from the bottom row to the top row via the same col.
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             if (gameBoard[i][playerMove-1].getSymbol().equals("\uD83D\uDD18")) {
+//            if (gameBoard[i][playerMove-1].getSymbol().equals("  ")) {
                 gameBoard[i][playerMove-1] = new Space(player.getSymbol());
                 break;
             }
+        }
+    }
+
+    public void clear() {
+        for (int i = 0; i < 25; i++) {
+            System.out.println();
         }
     }
 
