@@ -46,7 +46,7 @@ public class GameBoard {
                 move(player1Move, player1);
             }
 
-
+            checkWin(player1);
             clear();
             printBoard();
             System.out.print(player2.getName() + " choose a move: ");
@@ -65,6 +65,7 @@ public class GameBoard {
                 }
                 move(player2Move, player2);
             }
+            checkWin(player2);
             clear();
         }
     }
@@ -141,6 +142,32 @@ public class GameBoard {
         }
 
 
+    }
+
+    public void checkWin( Player player) {
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = 0; j < 3; j++) {
+                if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
+                    if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
+                        if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
+                            System.out.println(player.getName() + " has won! Congrats!");
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = gameBoard[0].length - 1; j > 2; i--) {
+                if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
+                    if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
+                        if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
+                            System.out.println(player.getName() + " has won! Congrats!");
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
