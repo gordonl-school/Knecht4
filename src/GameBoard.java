@@ -37,35 +37,36 @@ public class GameBoard {
             if (check(player1Move, player1)) {
                 move(player1Move, player1);
             } else {
-                while (check(player1Move, player1) == false) {
+                System.out.println("Error! Out of bounds!");
+                while (!check(player1Move, player1)) {
                     System.out.print(player1.getName() + " choose a move: ");
                     player1Move = scan.nextInt();
+                    System.out.println("Error! Out of bounds!");
                 }
                 move(player1Move, player1);
             }
-            move(player1Move, player1);
 
 
             clear();
             printBoard();
             System.out.print(player2.getName() + " choose a move: ");
             int player2Move = scan.nextInt();
-            move(player2Move, player2);
-            clear();
 //            move(player2Move, player2);
             //issues are when you put in a different value that doesn't fit check, it prints error message twice
             //also when you have error and decide to put in another answer in a different column it doesn't show up
             if (check(player2Move, player2)) {
                 move(player2Move, player2);
             } else {
-                while (check(player2Move, player2) == false) {
+                System.out.println("Error! Out of bounds!");
+                while (!check(player2Move, player2)) {
                     System.out.print(player2.getName() + " choose a move: ");
                     player2Move = scan.nextInt();
+                    System.out.println("Error! Out of bounds!");
                 }
+                move(player2Move, player2);
             }
+            clear();
         }
-
-
     }
 
     public void setUpBoard() {
@@ -132,10 +133,8 @@ public class GameBoard {
 
     public boolean check(int move, Player player) {
         if (move < 1 || move > 7) {
-            System.out.println("Error! Out of bounds!");
             return false;
         } else if (gameBoard[0][move - 1].getSymbol().equals(player1Symbol) || gameBoard[0][move - 1].getSymbol().equals(player2Symbol)) {
-            System.out.println("Error! Out of bounds!");
             return false;
         } else {
             return true;
