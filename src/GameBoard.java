@@ -45,6 +45,8 @@ public class GameBoard {
                 }
                 move(player1Move, player1);
             }
+
+
             clear();
             if (checkWin(player1)) {
                 break;
@@ -78,7 +80,6 @@ public class GameBoard {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
                 gameBoard[i][j] = new Space("\uD83D\uDD18");
-//                gameBoard[i][j] = new Space("  ");
 
             }
         }
@@ -183,6 +184,30 @@ public class GameBoard {
 
         return false;
     }
+
+
+      //Alternate solution to horizontal
+//    public boolean check1(Player player) {
+//        for (int subRow = 0; subRow < 6; subRow++) {
+//            for (int add = 0; add < 4; add++) {
+//                boolean win = true;
+//                for (int col = 0 + add; col < 4 + add; col++) {
+//                    if (!gameBoard[gameBoard.length - 1 - subRow][col].getSymbol().equals(player.getSymbol())) {
+//
+//                        win = false;
+//                    }
+//                }
+//                if (win) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
+
+
+
 
 
 }
