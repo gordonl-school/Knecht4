@@ -49,6 +49,7 @@ public class GameBoard {
 
             clear();
             if (checkWin(player1)) {
+                printBoard();
                 break;
             }
 
@@ -71,6 +72,7 @@ public class GameBoard {
             }
             clear();
             if (checkWin(player2)) {
+                printBoard();
                 break;
             }
         }
@@ -86,7 +88,8 @@ public class GameBoard {
     }
 
     public void printBoard() {
-        System.out.print("-------------------------------");
+//        System.out.print("-------------------------------");
+        System.out.print("———————————————————————————————");
         System.out.println();
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
@@ -95,7 +98,7 @@ public class GameBoard {
             }
             System.out.print("|");
             System.out.println();
-            System.out.println("-------------------------------");
+            System.out.println("———————————————————————————————");
         }
     }
 
@@ -103,15 +106,15 @@ public class GameBoard {
         String[] symbols = {"\uD83D\uDD34", "\uD83C\uDF49", "\uD83C\uDF4A"};
         System.out.println("List of Symbols: ");
         for (int i = 1; i <= symbols.length; i++) {
-            System.out.println(i + ". " + symbols[i-1]);
+            System.out.println(i + ". " + symbols[i - 1]);
         }
         System.out.print(name1 + ", select a symbol: ");
         int symbol1 = scan.nextInt();
-        player1Symbol = symbols[symbol1-1];
+        player1Symbol = symbols[symbol1 - 1];
         while (true) {
             System.out.print(name2 + ", select a symbol: ");
             int symbol2 = scan.nextInt();
-            player2Symbol = symbols[symbol2-1];
+            player2Symbol = symbols[symbol2 - 1];
             if (player1Symbol.equals(player2Symbol)) {
                 System.out.println("You cannot choose the same symbols. Choose again.");
                 continue;
@@ -123,9 +126,9 @@ public class GameBoard {
     public void move(int playerMove, Player player) {
         //This is going from the bottom row to the top row via the same col.
         for (int i = gameBoard.length - 1; i >= 0; i--) {
-            if (gameBoard[i][playerMove-1].getSymbol().equals("\uD83D\uDD18")) {
+            if (gameBoard[i][playerMove - 1].getSymbol().equals("\uD83D\uDD18")) {
 //            if (gameBoard[i][playerMove-1].getSymbol().equals("  ")) {
-                gameBoard[i][playerMove-1] = new Space(player.getSymbol());
+                gameBoard[i][playerMove - 1] = new Space(player.getSymbol());
                 break;
             }
         }
@@ -145,25 +148,23 @@ public class GameBoard {
         } else {
             return true;
         }
-
-
     }
 
-    public boolean checkWin( Player player) {
+    public boolean checkWin(Player player) {
+        //————————————————————————————————————————Horizontal Checker———————————————————--————————————————————————————————
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 4; j++) {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
                             printBoard();
-                            System.out.println(player.getName() + " has won! Congrats!");
+                            System.out.println(player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             return true;
                         }
                     }
                 }
             }
         }
-
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = gameBoard[0].length - 1; j > 2; j--) {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
@@ -178,12 +179,52 @@ public class GameBoard {
             }
         }
 
+        //————————————————————————————————————————Diagonal Checker———————————————————--————————————————————————————————
+        //Diagonal Checker from the Bottom Right
+        for (int rowSub = 0; rowSub < 3; rowSub++) {
+            for (int colAdd = 0; colAdd < 4; colAdd++) {
+                //CHECKER FOR THE INITIAL ROWS
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = colAdd;
+                for (int i = 0; i < 4; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(player.getSymbol())) {
+                        win = false;
+                    }
+                    col++;
+                    row--;
+                }
+                if (win) {
+                    System.out.println(player.getName() + " has won!");
+                    return true;
+                }
+            }
+        }
 
-
-
+        //Diagonal Checker for the Bottom left
+        for (int rowSub = 0; rowSub < 3; rowSub++) {
+            for (int colSub = 0; colSub < 4; colSub++) {
+                //CHECKER FOR THE INITIAL ROWS
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = gameBoard[0].length - 1 - colSub;
+                for (int i = 0; i < 4; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(player.getSymbol())) {
+                        win = false;
+                    }
+                    col--;
+                    row--;
+                }
+                if (win) {
+                    System.out.println(player.getName() + " has won!");
+                    return true;
+                }
+            }
+        }
 
         return false;
     }
+}
 
 
       //Alternate solution to horizontal
@@ -210,4 +251,4 @@ public class GameBoard {
 
 
 
-}
+
