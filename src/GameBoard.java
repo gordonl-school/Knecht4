@@ -49,7 +49,6 @@ public class GameBoard {
 
             clear();
             if (checkWin(player1)) {
-                printBoard();
                 break;
             }
 
@@ -72,7 +71,6 @@ public class GameBoard {
             }
             clear();
             if (checkWin(player2)) {
-                printBoard();
                 break;
             }
         }
@@ -170,6 +168,34 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
+                            printBoard();
+                            System.out.println(player.getName() + " has won! Congrats!");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        //————————————————————————————————————————Vertical Checker———————————————————--————————————————————————————————
+        for (int i = 0; i < gameBoard[0].length - 1; i++) {
+            for (int j = gameBoard.length - 1; j > 1; j--) {
+                if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
+                    if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
+                        if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
+                            printBoard();
+                            System.out.println(player.getName() + " has won! Congrats!");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = gameBoard[0].length - 1; i >= 0; i--) {
+            for (int j = gameBoard.length - 1; j > 1; j--) {
+                if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
+                    if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
+                        if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
                             printBoard();
                             System.out.println(player.getName() + " has won! Congrats!");
                             return true;
