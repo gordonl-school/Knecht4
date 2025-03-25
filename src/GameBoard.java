@@ -179,7 +179,7 @@ public class GameBoard {
 
         //————————————————————————————————————————Vertical Checker———————————————————--————————————————————————————————
         for (int i = 0; i < gameBoard[0].length - 1; i++) {
-            for (int j = gameBoard.length - 1; j > 1; j--) {
+            for (int j = gameBoard.length - 1; j > 3; j--) {
                 if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
