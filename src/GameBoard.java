@@ -221,6 +221,7 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
+                    printBoard();
                     System.out.println(player.getName() + " has won!");
                     return true;
                 }
@@ -242,6 +243,7 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
+                    printBoard();
                     System.out.println(player.getName() + " has won!");
                     return true;
                 }
