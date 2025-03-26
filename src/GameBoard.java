@@ -9,8 +9,6 @@ public class GameBoard {
     private Scanner scan;
 
     public GameBoard() {
-//        this.player1 = player1;
-//        this.player2 = player2;
         gameBoard = new Space[6][7];
         scan = new Scanner(System.in);
     }
@@ -27,13 +25,12 @@ public class GameBoard {
         player2 = new Player(player2Symbol, name2);
         setUpBoard();
 
-        System.out.println("Directions:\n To choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
+        System.out.println("Directions:\nTo choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
+        printBoard();
         while (true) {
-            printBoard();
             System.out.print(player1.getName() + " choose a move: ");
             int player1Move = scan.nextInt();
 
-//            move(player1Move, player1);
             if (check(player1Move, player1)) {
                 move(player1Move, player1);
             } else {
@@ -46,18 +43,14 @@ public class GameBoard {
                 move(player1Move, player1);
             }
 
-
             clear();
+            printBoard();
             if (checkWin(player1)) {
                 break;
             }
 
-            printBoard();
             System.out.print(player2.getName() + " choose a move: ");
             int player2Move = scan.nextInt();
-//            move(player2Move, player2);
-            //issues are when you put in a different value that doesn't fit check, it prints error message twice
-            //also when you have error and decide to put in another answer in a different column it doesn't show up
             if (check(player2Move, player2)) {
                 move(player2Move, player2);
             } else {
@@ -70,6 +63,7 @@ public class GameBoard {
                 move(player2Move, player2);
             }
             clear();
+            printBoard();
             if (checkWin(player2)) {
                 break;
             }
@@ -155,8 +149,7 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
-                            printBoard();
-                            System.out.println(player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             return true;
                         }
                     }
@@ -168,8 +161,7 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
-                            printBoard();
-                            System.out.println(player.getName() + " has won! Congrats!");
+                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             return true;
                         }
                     }
@@ -183,8 +175,7 @@ public class GameBoard {
                 if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
-                            printBoard();
-                            System.out.println(player.getName() + " has won! Congrats!");
+                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             return true;
                         }
                     }
@@ -196,8 +187,7 @@ public class GameBoard {
                 if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
-                            printBoard();
-                            System.out.println(player.getName() + " has won! Congrats!");
+                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             return true;
                         }
                     }
@@ -221,8 +211,7 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
-                    printBoard();
-                    System.out.println(player.getName() + " has won!");
+                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                     return true;
                 }
             }
@@ -243,8 +232,7 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
-                    printBoard();
-                    System.out.println(player.getName() + " has won!");
+                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                     return true;
                 }
             }
