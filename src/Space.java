@@ -8,4 +8,8 @@ public class Space {
     public String getSymbol() {
         return symbol;
     }
+
+    public void win() {
+        System.out.println("Nobody has won! " + getSymbol());
+    }
 }

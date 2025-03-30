@@ -27,7 +27,7 @@ public class GameBoard {
 
         System.out.println("Directions:\nTo choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         printBoard();
-        while (true) {
+        while (!checkWin(player1) && !checkWin(player2) && !boardFull()) {
             System.out.print(player1.getName() + " choose a move: ");
             int player1Move = scan.nextInt();
 
@@ -46,7 +46,8 @@ public class GameBoard {
             clear();
             printBoard();
             if (checkWin(player1)) {
-                break;
+                //break;
+                System.exit(0);
             }
 
             System.out.print(player2.getName() + " choose a move: ");
@@ -65,9 +66,12 @@ public class GameBoard {
             clear();
             printBoard();
             if (checkWin(player2)) {
-                break;
+//                break;
+                System.exit(0);
             }
         }
+        Space loser = new Space("\uD83D\uDC4E");
+        loser.win();
     }
 
     public void setUpBoard() {
@@ -149,7 +153,8 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
-                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                            player.win();
                             return true;
                         }
                     }
@@ -161,7 +166,8 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
-                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                            player.win();
                             return true;
                         }
                     }
@@ -184,18 +190,20 @@ public class GameBoard {
                     }
                 }
                 if (verticalCheck.size() == 4) {
-                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                    player.win();
                     return true;
                 }
             }
         }
 
         for (int i = gameBoard[0].length - 1; i > 0; i--) {
-            for (int j = gameBoard.length - 1; j > 1; j--) {
+            for (int j = gameBoard.length - 1; j > 2; j--) {
                 if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
-                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                            player.win();
                             return true;
                         }
                     }
@@ -219,7 +227,8 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
-                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                    player.win();
                     return true;
                 }
             }
@@ -240,7 +249,8 @@ public class GameBoard {
                     row--;
                 }
                 if (win) {
-                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+//                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                    player.win();
                     return true;
                 }
             }
@@ -248,7 +258,19 @@ public class GameBoard {
 
         return false;
     }
+
+    public boolean boardFull() {
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[0].length; j++) {
+                if (gameBoard[i][j].getSymbol().equals("\uD83D\uDD18")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
+
 
 
       //Alternate solution to horizontal
