@@ -170,15 +170,22 @@ public class GameBoard {
         }
 
         //————————————————————————————————————————Vertical Checker———————————————————--————————————————————————————————
+        ArrayList<Space> verticalCheck = new ArrayList<>();
         for (int i = 0; i < gameBoard[0].length - 1; i++) {
             for (int j = gameBoard.length - 1; j > 2; j--) {
                 if (gameBoard[j][i].getSymbol().equals(player.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(player.getSymbol())) {
+                    verticalCheck.add(gameBoard[j][i]);
+                    verticalCheck.add(gameBoard[j - 1][i]);
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
+                        verticalCheck.add(gameBoard[j - 2][i]);
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
-                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
-                            return true;
+                            verticalCheck.add(gameBoard[j - 3][i]);
                         }
                     }
+                }
+                if (verticalCheck.size() == 4) {
+                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
+                    return true;
                 }
             }
         }
