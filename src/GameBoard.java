@@ -37,11 +37,10 @@ public class GameBoard {
                         move(player1Move, player1);
                         break;
                     } else {
-                        System.out.println("Error! Out of bounds!");
                         while (!check(player1Move, player1)) {
+                            System.out.println("Error! Out of bounds!");
                             System.out.print(player1.getName() + " choose a move: ");
                             player1Move = scan.nextInt();
-                            System.out.println("Error! Out of bounds!");
                         }
                         move(player1Move, player1);
                         break;
@@ -67,11 +66,10 @@ public class GameBoard {
                         move(player2Move, player2);
                         break;
                     } else {
-                        System.out.println("Error! Out of bounds!");
                         while (!check(player2Move, player2)) {
+                            System.out.println("Error! Out of bounds!");
                             System.out.print(player2.getName() + " choose a move: ");
                             player2Move = scan.nextInt();
-                            System.out.println("Error! Out of bounds!");
                         }
                         move(player2Move, player2);
                         break;
@@ -172,7 +170,6 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
-//                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             player.win();
                             System.out.println("Horizontal check left to right");
                             return true;
@@ -186,7 +183,6 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
-//                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
                             player.win();
                             System.out.println("Horizontal check right to left");
                             return true;
