@@ -27,18 +27,18 @@ public class GameBoard {
 
         System.out.println("Directions:\nTo choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         printBoard();
-        while (!checkWin(player1) && !checkWin(player2) && !boardFull()) {
+        while (!checkWin(player1, gameBoard) && !checkWin(player2, gameBoard) && !boardFull(gameBoard)) {
             while (true) {
                 try {
                     System.out.print(player1.getName() + " choose a move: ");
                     int player1Move = scan.nextInt();
 
-                    if (check(player1Move, player1)) {
+                    if (isValid(player1Move, player1, gameBoard, player1Symbol, player2Symbol)) {
                         move(player1Move, player1);
                         break;
                     } else {
                         System.out.println("Error! Out of bounds!");
-                        while (!check(player1Move, player1)) {
+                        while (!isValid(player1Move, player1, gameBoard, player1Symbol, player2Symbol)) {
                             System.out.print(player1.getName() + " choose a move: ");
                             player1Move = scan.nextInt();
                             System.out.println("Error! Out of bounds!");
@@ -54,7 +54,7 @@ public class GameBoard {
 
             clear();
             printBoard();
-            if (checkWin(player1)) {
+            if (checkWin(player1, gameBoard)) {
                 //break;
                 System.exit(0);
             }
@@ -63,12 +63,12 @@ public class GameBoard {
                 try {
                     System.out.print(player2.getName() + " choose a move: ");
                     int player2Move = scan.nextInt();
-                    if (check(player2Move, player2)) {
+                    if (isValid(player2Move, player2, gameBoard, player1Symbol, player2Symbol)) {
                         move(player2Move, player2);
                         break;
                     } else {
                         System.out.println("Error! Out of bounds!");
-                        while (!check(player2Move, player2)) {
+                        while (!isValid(player2Move, player2, gameBoard, player1Symbol, player2Symbol)) {
                             System.out.print(player2.getName() + " choose a move: ");
                             player2Move = scan.nextInt();
                             System.out.println("Error! Out of bounds!");
@@ -84,7 +84,7 @@ public class GameBoard {
 
             clear();
             printBoard();
-            if (checkWin(player2)) {
+            if (checkWin(player2, gameBoard)) {
 //                break;
                 System.exit(0);
             }
@@ -97,7 +97,6 @@ public class GameBoard {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
                 gameBoard[i][j] = new Space("\uD83D\uDD18");
-
             }
         }
     }
@@ -155,7 +154,7 @@ public class GameBoard {
         }
     }
 
-    public boolean check(int move, Player player) {
+    public static boolean isValid(int move, Space[][] gameBoard, String player1Symbol, String player2Symbol) {
         if (move < 1 || move > 7) {
             return false;
         } else if (gameBoard[0][move - 1].getSymbol().equals(player1Symbol) || gameBoard[0][move - 1].getSymbol().equals(player2Symbol)) {
@@ -165,7 +164,7 @@ public class GameBoard {
         }
     }
 
-    public boolean checkWin(Player player) {
+    public static boolean checkWin(Player player, Space[][] gameBoard) {
         //————————————————————————————————————————Horizontal Checker———————————————————--————————————————————————————————
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 4; j++) {
@@ -286,7 +285,7 @@ public class GameBoard {
         return false;
     }
 
-    public boolean boardFull() {
+    public static boolean boardFull(Space[][] gameBoard) {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[0].length; j++) {
                 if (gameBoard[i][j].getSymbol().equals("\uD83D\uDD18")) {
