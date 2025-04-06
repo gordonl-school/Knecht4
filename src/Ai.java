@@ -1,134 +1,151 @@
 import java.util.ArrayList;
 
 public class Ai {
-    private static int MAX = 100000;
-    private static int MIN = -100000;
-
     private static Player HUMAN;
     private static Player AI;
-    private static ArrayList<Integer> availableMoves;
     private static Space[][] copyOfMain;
 
     public Ai() {
         HUMAN = new Player("\\uD83D\\uDD34", "Human");
         AI = new Player("\\uD83C\\uDF49", "AI");
-        availableMoves = new ArrayList<>();
     }
 
-    public static int minMax(Space[][] gameBoard) {
-        copyOfMain = new Space[gameBoard.length][gameBoard[0].length];
-        // for loop to copy elements over
-
-        return minmax(copyOfMain, 3, true);  // true == computer
-    }
-
-    private static int minmax(Space[][] gameBoard, int depth, boolean maximizingPlayer) {
-        int index = 0;
-        // Ends once the calculations if done | Recursion
+    private static int minmax(Space[][] gameBoard, int depth, int end, boolean maximizingPlayer) {
         if (depth == 0 || isTerminal(gameBoard)) {
-            // return best eval / position here
-            return MAX;
-        }
-    /*
-        1.) Loop through each of the positions
-        2.) Check if it is a valid move
-        3.) Make the move
-        4.) Evaluate the position
-        5.) Assign it to a var?
-        6.) Call the minmax method again recursively
-     */
-
-        // Generate all the moves possible -> Put it into an array/score it on that iteration
-        // Score each position -> It depends on the way that you want to do it (different scenarios for connect 4) -> Look up what is a winning position on connect 4
-        // Positions and scored based on whether its near any of its friendly pieces -> Have the ai move to where the other pieces are
-        //
-
-        //
-        // Run minimax on each of the scores (it's going to be like a tree)
-        if (maximizingPlayer) {
-            int[] availMoves = findAvailableMoves(gameBoard);
-//            int bestMove =
-//            for col in availMoves {
-//                int score = determineMoveScore(col);
-//                if score > bestMove, bestMove = score
-//
-//            }
-//            makeMove(gameBoard, bestMove, maximizingPlayer);
-
-            //-------
-            int[] availMoves = findAvailableMoves(gameBoard);
-            int bestMove = minmax(gameBoard, depth - 1, false);
-            makeMove(gameBoard, bestMove, maximizingPlayer);
+            return evaluateBoard(gameBoard);
         }
 
-//        if (maximizingPlayer) {
-//            for (int i = 0; i < gameboard.length; i++) {
-//                for (int j = 0; j < gameboard[0].length; j++) {
-//                    int eval = minmax(copyOfMain, depth - 1, false);
-//                    MAX = Math.max(MAX, eval);
-//                }
-//            }
-//        }
-
-
-        return 1;
-    }
-
-//    public static int[] findAvailableMoves(Space[][] gameBoard) {
-//        for (int col = 0; col < gameBoard[0].length; col++) {
-//            if (GameBoard.isValid(col, gameBoard, AI.getSymbol(), HUMAN.getSymbol())) {
-//                availableMoves.add(col);
-//            }
-//        }
-//    }
-
-    // int determineMoveScore(int col) {
-
-
-    /* Loop through a list and checks if the move is valid, if it is valid then
-     Make a method that takes the gameBoard as a param and then plays a move there
-     The move then gets placed within the gameBoard and the gameBoard gets returned
-     The gameBoard is returned then assigned to a var that will then pass that gameBoard through a method that checks whether the move is good or not (goes through a min-max)
-     After running min-max we will compare the scores returned by the method that checks the position of the board
-     If the score is higher for the maximizing player (compare it with the maxEval) then if it is higher, then set the col (the move that the ai will make)
-     to be equal to that col with the highest evaluation
-     **At the very end return that col and then make the ai move in the gameBoard class
-     */
-
-    public static void makeMove(Space[][] game, int col, boolean player) {
-        // apply move to game, insert move for that player
-    }
-
-
-
-
-//    public static Space[][] makeMove(Space[][] board, int col, Player player) {
-//        Space[][] newBoard = copyBoard(board);
-//        for (int row = board.length - 1; row >= 0; row--) {
-//            if (newBoard[row][col] == null) {
-//                newBoard[row][col] = new Space(player.getSymbol());
-//                break;
-//            }
-//        }
-//        return newBoard;
-//    }
-
-
-    public static int getBestMove(Space[][] gameBoard) {
+        int bestValue;
         int bestMove = -1;
-        int bestValue = MIN;
 
-        for (int col = 0; col < gameBoard[0].length; col++) {
+        if (maximizingPlayer) {
+            bestValue = Integer.MIN_VALUE; // AI WANTS highest score
+            for (int col = 0; col < gameBoard[0].length; col++) {
+                if (!isValid(col, gameBoard)) {
+                    continue;
+                }
 
+                Space[][] newBoard = copyBoard(gameBoard);
+                applyMove(newBoard, col, AI);
+
+                int score = minmax(newBoard, depth - 1, end,false);
+
+                if (score > bestValue) {
+                    bestValue = score;
+                    bestMove = col;
+                }
+            }
+        } else {
+            bestValue = Integer.MAX_VALUE; // Human WANTS the lowest score
+            for (int col = 0; col < gameBoard[0].length; col++) {
+                if (!isValid(col, gameBoard)) {
+                    continue;
+                }
+
+                Space[][] newBoard = copyBoard(gameBoard);
+                applyMove(newBoard, col, HUMAN);
+
+                int score = minmax(newBoard, depth - 1, end, true);
+
+                if (score < bestValue) {
+                    bestValue = score;
+                }
+            }
+        }
+        if (end == depth) {
+            return bestMove;
+        } else {
+            return bestValue;
         }
     }
 
+    public static boolean isValid(int col, Space[][] gameBoard) {
+        if (col < 1 || col > 7) {
+            return false;
+        } else if (gameBoard[0][col - 1].getSymbol().equals(HUMAN.getSymbol()) || gameBoard[0][col - 1].getSymbol().equals(AI.getSymbol())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-    public static boolean isTerminal(Space[][] gameBoard) {
-        return GameBoard.checkWin(HUMAN, gameBoard) || GameBoard.checkWin(AI, gameBoard) || GameBoard.boardFull(gameBoard);
+    private static Space[][] copyBoard(Space[][] gameBoard) {
+        Space[][] newBoard = new Space[gameBoard.length][gameBoard[0].length];
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[0].length; j++) {
+                newBoard[i][j] = new Space(gameBoard[i][j].getSymbol());
+            }
+        }
+        return newBoard;
+    }
+
+    private static void applyMove(Space[][] board, int col, Player player) {
+        for (int row = board.length - 1; row >= 0; row--) {
+            if (board[row][col-1].getSymbol().equals("\uD83D\uDD18")) {
+                board[row][col-1] = new Space(player.getSymbol());
+                break;
+            }
+        }
     }
 
     public static int evaluateBoard(Space[][] gameBoard) {
+        int score = 0;
 
+        // Line eval for both (ADDS/SUbTRACTS) based on scenario
+        score += evaluateCenter(gameBoard, AI.getSymbol(), HUMAN.getSymbol());
+
+        // Line evals for AI (ADDS)
+        score += evaluateLines(gameBoard, AI.getSymbol());
+
+        // Line evals for Human (SUBTRACTS)
+        score -= evaluateLines(gameBoard, HUMAN.getSymbol());
+
+        return score;
+    }
+
+    private static int evaluateCenter(Space[][] gameBoard, String aiSymbol, String humanSymbol) {
+        int aiCount = 0;
+        int humanCount = 0;
+
+        for (int col = 2; col <= 4; col++) {
+            for (int row = 0; row < gameBoard.length; row++) {
+                if (gameBoard[row][col].getSymbol().equals(aiSymbol)) {
+                    aiCount++;
+                } else if (gameBoard[row][col].getSymbol().equals(humanSymbol)) {
+                    humanCount++;
+                }
+            }
+        }
+        return (aiCount - humanCount) * 2;
+    }
+
+    public static int evaluateLines(Space[][] gameBoard, String symbol) {
+        int score = 0;
+        // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
+
+        // Add a horizontal checker here that checks if this (symbol in the param) has 2 in a row -> if so, add score += 5
+
+        // Add a vertical checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
+
+        // Add a vertical checker here that checks if this (symbol in the param) has 2 in a row -> if so, add score += 5
+
+        //-------------------- FOR ME TO DO ------------------------
+        // Diagonal checker for 3 in a row
+
+        // Diagonal checker for 2 in a row
+        return 0; //placeholder value
+    }
+
+    private static boolean isTerminal(Space[][] gameBoard) {
+        return isFull(gameBoard);
+    }
+
+    private static boolean isFull(Space[][] gameBoard) {
+        for (int col = 0; col < gameBoard[0].length; col++) {
+            if (gameBoard[0][col].getSymbol().equals("\uD83D\uDD18")) {
+                return false;
+            }
+        }
+        return true;
     }
 }
