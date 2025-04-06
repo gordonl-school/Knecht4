@@ -121,6 +121,8 @@ public class Ai {
 
     public static int evaluateLines(Space[][] gameBoard, String symbol) {
         int score = 0;
+        // Horizontal/Vertical/Diagonal checker for 4 in a row will be added here (will use the method in GameBoard) -> score += 500 if valid
+
         // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
 
         // Add a horizontal checker here that checks if this (symbol in the param) has 2 in a row -> if so, add score += 5
