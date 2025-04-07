@@ -1,5 +1,13 @@
 import java.util.ArrayList;
-
+/* (THESE ARE SOME OF THE CREDITS -> THERE ARE MORE THAN THIS
+ // https://www.youtube.com/watch?v=l-hh51ncgDI&t=268s
+ // https://www.youtube.com/watch?v=MMLtza3CZFM&t=72s (in python)
+ // https://www.youtube.com/watch?v=trKjYdBASyQ
+ // https://gist.github.com/Da9el00/c6a4794c17039a7d62761a256d1b4c93 (open source for tic tac toe min max in java)
+ // A professor (https://courses.cs.washington.edu/courses/cse332/16au/handouts/games.pdf)
+ // Michael Madrid
+ // Thanks to Google
+ */
 public class Ai {
     private static Player HUMAN = new Player("\uD83D\uDD34", "HUMAN");;
     private static Player AI = new Player("\uD83C\uDF4A", "AI");;
