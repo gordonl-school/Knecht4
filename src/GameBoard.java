@@ -115,7 +115,7 @@ public class GameBoard {
                 } else {
                     aiChosenCol = Ai.minmax(gameBoard, 2, 2, true);
                 }
-                System.out.println("AI COL: " + aiChosenCol);
+//                System.out.println("AI COL: " + aiChosenCol);
                 move(aiChosenCol, player2);
             }
             clear();
