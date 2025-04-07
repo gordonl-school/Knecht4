@@ -59,16 +59,16 @@ public class Ai {
             }
         }
         if (end == depth) {
-            return bestMove;
+            return bestMove + 1;
         } else {
             return bestValue;
         }
     }
 
     private static boolean isValid(int col, Space[][] gameBoard) {
-        if (col < 1 || col > 7) {
+        if (col < 0 || col >= gameBoard[0].length) {
             return false;
-        } else if (gameBoard[0][col - 1].getSymbol().equals(HUMAN.getSymbol()) || gameBoard[0][col - 1].getSymbol().equals(AI.getSymbol())) {
+        } else if (gameBoard[0][col].getSymbol().equals(HUMAN.getSymbol()) || gameBoard[0][col].getSymbol().equals(AI.getSymbol())) {
             return false;
         } else {
             return true;
@@ -87,8 +87,8 @@ public class Ai {
 
     private static void applyMove(Space[][] gameBoard, int col, Player player) {
         for (int i = gameBoard.length - 1; i >= 0; i--) {
-            if (gameBoard[i][col - 1].getSymbol().equals("\uD83D\uDD18")) {
-                gameBoard[i][col - 1] = new Space(player.getSymbol());
+            if (gameBoard[i][col].getSymbol().equals("\uD83D\uDD18")) {
+                gameBoard[i][col] = new Space(player.getSymbol());
                 break;
             }
         }
