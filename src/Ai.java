@@ -90,6 +90,12 @@ public class Ai {
 
     private static int evaluateBoard(Space[][] gameBoard) {
         int score = 0;
+        if (GameBoard.checkWin(new Player(AI.getSymbol(), ""), gameBoard, true)) {
+            return 100000; // Means AI would win
+        }
+        if (GameBoard.checkWin(new Player(HUMAN.getSymbol(), ""), gameBoard, true)) {
+            return -100000;  // Means Human will win, AI MUST BLOCK URGENTLY
+        }
 
         // Line eval for both (ADDS/SUbTRACTS) based on scenario
         score += evaluateCenter(gameBoard, AI.getSymbol(), HUMAN.getSymbol());
@@ -122,16 +128,20 @@ public class Ai {
     private static int evaluateLines(Space[][] gameBoard, String symbol, Player player) {
         int score = 0;
         // Horizontal/Vertical/Diagonal checker for 4 in a row will be added here (will use the method in GameBoard) -> score += 500 if valid
-        if (GameBoard.checkWin(player, gameBoard, true)) {
-            score += 1000;
-        }
+//        if (GameBoard.checkWin(player, gameBoard, true)) {
+//            if (player.getSymbol().equals(AI.getSymbol())) {
+//                score += 15000;
+//            } else {
+//                score += 2000;
+//            }
+//        }
         // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 120;
+                            score += 128;
                         } else {
                             score += 100;
                         }
@@ -147,7 +157,7 @@ public class Ai {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 120;
+                            score += 128;
                         } else {
                             score += 100;
                         }
@@ -187,7 +197,7 @@ public class Ai {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 120;
+                            score += 128;
                         } else {
                             score += 100;
                         }
@@ -201,7 +211,7 @@ public class Ai {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 120;
+                            score += 128;
                         } else {
                             score += 100;
                         }
@@ -243,7 +253,7 @@ public class Ai {
                 }
                 if (win) {
                     if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 120;
+                        score += 128;
                     } else {
                         score += 100;
                     }
@@ -264,7 +274,7 @@ public class Ai {
                 }
                 if (win) {
                     if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 120;
+                        score += 128;
                     } else {
                         score += 100;
                     }

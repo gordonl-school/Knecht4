@@ -99,7 +99,7 @@ public class GameBoard {
                     }
                 }
             } else {
-                int aiChosenCol = Ai.minmax(gameBoard, 3, 3, true);
+                int aiChosenCol = Ai.minmax(gameBoard, 2, 2, true);
                 move(aiChosenCol, player2);
             }
             clear();
