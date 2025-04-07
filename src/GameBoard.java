@@ -14,20 +14,37 @@ public class GameBoard {
     }
 
     public void start() {
-        System.out.print("Enter Player 1: ");
-        String name1 = scan.nextLine();
-        System.out.print("Enter Player 2: ");
-        String name2 = scan.nextLine();
-        selectSymbol(name1, name2);
-        System.out.println("Symbol 1:" + player1Symbol);
-        System.out.println("Symbol 2: " + player2Symbol);
-        player1 = new Player(player1Symbol, name1);
-        player2 = new Player(player2Symbol, name2);
-        setUpBoard();
+        System.out.println("------Starting------");
+        System.out.println("1. Player VS Player");
+        System.out.println("2. Player VS AI");
+        System.out.print("Choose your pick: ");
+        int userPick = scan.nextInt();
+
+        if (userPick == 1) {
+            System.out.print("Enter Player 1: ");
+            String name1 = scan.nextLine();
+            System.out.print("Enter Player 2: ");
+            String name2 = scan.nextLine();
+            selectSymbol(name1, name2);
+            System.out.println("Symbol 1:" + player1Symbol);
+            System.out.println("Symbol 2: " + player2Symbol);
+            player1 = new Player(player1Symbol, name1);
+            player2 = new Player(player2Symbol, name2);
+            setUpBoard();
+        } else if (userPick == 2) {
+            scan.nextLine();
+            System.out.print("Enter Player Name: ");
+            String name1 = scan.nextLine();
+            System.out.println("User symbol: " + "\uD83D\uDD34"); // This is a red circle
+            System.out.println("AI symbol: " + "\uD83C\uDF4A"); // This is a green circle
+            player1 = new Player("\uD83D\uDD34", name1);
+            player2 = new Player("\uD83C\uDF4A", "AI");
+            setUpBoard();
+        }
 
         System.out.println("Directions:\nTo choose a column, reply with 1-7. With 1 being the outermost left while 7 is the outermost right.");
         printBoard();
-        while (!checkWin(player1) && !checkWin(player2) && !boardFull()) {
+        while (!checkWin(player1, gameBoard, false) && !checkWin(player2, gameBoard, false) && !boardFull()) {
             while (true) {
                 try {
                     System.out.print(player1.getName() + " choose a move: ");
@@ -53,37 +70,40 @@ public class GameBoard {
 
             clear();
             printBoard();
-            if (checkWin(player1)) {
+            if (checkWin(player1, gameBoard, false)) {
                 //break;
                 System.exit(0);
             }
 
-            while (true) {
-                try {
-                    System.out.print(player2.getName() + " choose a move: ");
-                    int player2Move = scan.nextInt();
-                    if (check(player2Move, player2)) {
-                        move(player2Move, player2);
-                        break;
-                    } else {
-                        while (!check(player2Move, player2)) {
-                            System.out.println("Error! Out of bounds!");
-                            System.out.print(player2.getName() + " choose a move: ");
-                            player2Move = scan.nextInt();
+            if (userPick == 1) {
+                while (true) {
+                    try {
+                        System.out.print(player2.getName() + " choose a move: ");
+                        int player2Move = scan.nextInt();
+                        if (check(player2Move, player2)) {
+                            move(player2Move, player2);
+                            break;
+                        } else {
+                            while (!check(player2Move, player2)) {
+                                System.out.println("Error! Out of bounds!");
+                                System.out.print(player2.getName() + " choose a move: ");
+                                player2Move = scan.nextInt();
+                            }
+                            move(player2Move, player2);
+                            break;
                         }
-                        move(player2Move, player2);
-                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid answer");
+                        scan.next();
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid answer");
-                    scan.next();
                 }
+            } else {
+                int aiChosenCol = Ai.minmax(gameBoard, 5, 5, true);
+                move(aiChosenCol, player2);
             }
-
             clear();
             printBoard();
-            if (checkWin(player2)) {
-//                break;
+            if (checkWin(player2, gameBoard, false)) {
                 System.exit(0);
             }
         }
@@ -163,15 +183,16 @@ public class GameBoard {
         }
     }
 
-    public boolean checkWin(Player player) {
+    public static boolean checkWin(Player player, Space[][] gameBoard, boolean fromAIClass) {
         //————————————————————————————————————————Horizontal Checker———————————————————--————————————————————————————————
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 4; j++) {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j + 3].getSymbol().equals(player.getSymbol())) {
-                            player.win();
-                            System.out.println("Horizontal check left to right");
+                            if (!fromAIClass) {
+                                player.win();
+                            }
                             return true;
                         }
                     }
@@ -183,8 +204,9 @@ public class GameBoard {
                 if (gameBoard[i][j].getSymbol().equals(player.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(player.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[i][j - 3].getSymbol().equals(player.getSymbol())) {
-                            player.win();
-                            System.out.println("Horizontal check right to left");
+                            if (!fromAIClass) {
+                                player.win();
+                            }
                             return true;
                         }
                     }
@@ -212,8 +234,9 @@ public class GameBoard {
                 }
                 if (verticalCheck.size() == 4) {
 //                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
-                    player.win();
-                    System.out.println("vertical check bottom to top");
+                    if (!fromAIClass) {
+                        player.win();
+                    }
                     return true;
                 }
             }
@@ -225,8 +248,9 @@ public class GameBoard {
                     if (gameBoard[j - 2][i].getSymbol().equals(player.getSymbol())) {
                         if (gameBoard[j - 3][i].getSymbol().equals(player.getSymbol())) {
 //                            System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
-                            player.win();
-                            System.out.println("vertical check top to bottom");
+                            if (!fromAIClass) {
+                                player.win();
+                            }
                             return true;
                         }
                     }
@@ -251,7 +275,9 @@ public class GameBoard {
                 }
                 if (win) {
 //                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
-                    player.win();
+                    if (!fromAIClass) {
+                        player.win();
+                    }
                     return true;
                 }
             }
@@ -273,7 +299,9 @@ public class GameBoard {
                 }
                 if (win) {
 //                    System.out.println(Colors.GREEN + player.getName() + "(" + player.getSymbol() + ")" + " has won! Congrats!");
-                    player.win();
+                    if (!fromAIClass) {
+                        player.win();
+                    }
                     return true;
                 }
             }

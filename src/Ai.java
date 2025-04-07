@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
 public class Ai {
-    private static Player HUMAN;
-    private static Player AI;
+    private static Player HUMAN = new Player("\uD83D\uDD34", "HUMAN");;
+    private static Player AI = new Player("\uD83C\uDF4A", "AI");;
     private static Space[][] copyOfMain;
 
     public Ai() {
-        HUMAN = new Player("\\uD83D\\uDD34", "Human");
-        AI = new Player("\\uD83C\\uDF49", "AI");
+//        HUMAN = new Player("\uD83D\uDD34", "HUMAN");
+//        AI = new Player("\uD83D\uDFE2", "AI");
     }
 
-    private static int minmax(Space[][] gameBoard, int depth, int end, boolean maximizingPlayer) {
+    public static int minmax(Space[][] gameBoard, int depth, int end, boolean maximizingPlayer) {
         if (depth == 0 || isTerminal(gameBoard)) {
             return evaluateBoard(gameBoard);
         }
@@ -59,7 +59,7 @@ public class Ai {
         }
     }
 
-    public static boolean isValid(int col, Space[][] gameBoard) {
+    private static boolean isValid(int col, Space[][] gameBoard) {
         if (col < 1 || col > 7) {
             return false;
         } else if (gameBoard[0][col - 1].getSymbol().equals(HUMAN.getSymbol()) || gameBoard[0][col - 1].getSymbol().equals(AI.getSymbol())) {
@@ -88,17 +88,17 @@ public class Ai {
         }
     }
 
-    public static int evaluateBoard(Space[][] gameBoard) {
+    private static int evaluateBoard(Space[][] gameBoard) {
         int score = 0;
 
         // Line eval for both (ADDS/SUbTRACTS) based on scenario
         score += evaluateCenter(gameBoard, AI.getSymbol(), HUMAN.getSymbol());
 
         // Line evals for AI (ADDS)
-        score += evaluateLines(gameBoard, AI.getSymbol());
+        score += evaluateLines(gameBoard, AI.getSymbol(), AI);
 
         // Line evals for Human (SUBTRACTS)
-        score -= evaluateLines(gameBoard, HUMAN.getSymbol());
+        score -= evaluateLines(gameBoard, HUMAN.getSymbol(), HUMAN);
 
         return score;
     }
@@ -119,10 +119,12 @@ public class Ai {
         return (aiCount - humanCount) * 2;
     }
 
-    public static int evaluateLines(Space[][] gameBoard, String symbol) {
+    private static int evaluateLines(Space[][] gameBoard, String symbol, Player player) {
         int score = 0;
         // Horizontal/Vertical/Diagonal checker for 4 in a row will be added here (will use the method in GameBoard) -> score += 500 if valid
-
+        if (GameBoard.checkWin(player, gameBoard, true)) {
+            score += 500;
+        }
         // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
@@ -132,7 +134,6 @@ public class Ai {
 //                            player.win();
 //                            System.out.println("Horizontal check left to right");
 //                            return true;
-
                     }
                 }
             }
@@ -145,7 +146,6 @@ public class Ai {
 //                            player.win();
 //                            System.out.println("Horizontal check right to left");
 //                            return true;
-
                     }
                 }
             }
@@ -159,7 +159,6 @@ public class Ai {
 //                            player.win();
 //                            System.out.println("Horizontal check left to right");
 //                            return true;
-
                 }
             }
         }
@@ -170,8 +169,6 @@ public class Ai {
 //                            player.win();
 //                            System.out.println("Horizontal check right to left");
 //                            return true;
-
-
                 }
             }
         }
@@ -216,9 +213,78 @@ public class Ai {
 
         //-------------------- FOR ME TO DO ------------------------
         // Diagonal checker for 3 in a row
+        for (int rowSub = 0; rowSub < 2; rowSub++) {
+            for (int colAdd = 0; colAdd < 5; colAdd++) {
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = colAdd;
+                for (int i = 0; i < 3; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(symbol)) {
+                        win = false;
+                    }
+                    col++;
+                    row--;
+                }
+                if (win) {
+                    score += 50;
+                }
+            }
+        }
+        for (int rowSub = 0; rowSub < 2; rowSub++) {
+            for (int colSub = 0; colSub < 5; colSub++) {
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = gameBoard[0].length - 1 - colSub;
+                for (int i = 0; i < 3; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(symbol)) {
+                        win = false;
+                    }
+                    col--;
+                    row--;
+                }
+                if (win) {
+                    score += 50;
+                }
+            }
+        }
 
         // Diagonal checker for 2 in a row
-        return 0; //placeholder value
+        for (int rowSub = 0; rowSub < gameBoard.length - 1; rowSub++) {
+            for (int colAdd = 0; colAdd < gameBoard[0].length - 1; colAdd++) {
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = colAdd;
+                for (int i = 0; i < 2; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(symbol)) {
+                        win = false;
+                    }
+                    col++;
+                    row--;
+                }
+                if (win) {
+                    score += 5;
+                }
+            }
+        }
+        for (int rowSub = 0; rowSub < gameBoard.length - 1; rowSub++) {
+            for (int colSub = 0; colSub < gameBoard[0].length - 1; colSub++) {
+                boolean win = true;
+                int row = gameBoard.length - 1 - rowSub;
+                int col = gameBoard[0].length - 1 - colSub;
+                for (int i = 0; i < 2; i++) {
+                    if (!gameBoard[row][col].getSymbol().equals(symbol)) {
+                        win = false;
+                    }
+                    col--;
+                    row--;
+                }
+                if (win) {
+                    score += 5;
+                }
+            }
+        }
+
+        return score;
     }
 
     private static boolean isTerminal(Space[][] gameBoard) {
