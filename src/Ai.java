@@ -116,21 +116,25 @@ public class Ai {
                 }
             }
         }
-        return (aiCount - humanCount) * 2;
+        return (aiCount - humanCount) * 3;
     }
 
     private static int evaluateLines(Space[][] gameBoard, String symbol, Player player) {
         int score = 0;
         // Horizontal/Vertical/Diagonal checker for 4 in a row will be added here (will use the method in GameBoard) -> score += 500 if valid
         if (GameBoard.checkWin(player, gameBoard, true)) {
-            score += 500;
+            score += 1000;
         }
         // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 50;
+                        if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                            score += 120;
+                        } else {
+                            score += 100;
+                        }
 //                            player.win();
 //                            System.out.println("Horizontal check left to right");
 //                            return true;
@@ -142,7 +146,11 @@ public class Ai {
             for (int j = gameBoard[0].length - 1; j > 3; j--) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 50;
+                        if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                            score += 120;
+                        } else {
+                            score += 100;
+                        }
 //                            player.win();
 //                            System.out.println("Horizontal check right to left");
 //                            return true;
@@ -155,7 +163,7 @@ public class Ai {
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 2; j++) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 5;
+                    score += 8;
 //                            player.win();
 //                            System.out.println("Horizontal check left to right");
 //                            return true;
@@ -165,7 +173,7 @@ public class Ai {
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = gameBoard[0].length - 1; j > 4; j--) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 5;
+                    score += 8;
 //                            player.win();
 //                            System.out.println("Horizontal check right to left");
 //                            return true;
@@ -178,7 +186,11 @@ public class Ai {
             for (int j = gameBoard.length - 1; j > 3; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 50;
+                        if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                            score += 120;
+                        } else {
+                            score += 100;
+                        }
                     }
                 }
 
@@ -188,7 +200,11 @@ public class Ai {
             for (int j = gameBoard.length - 1; j > 2; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 50;
+                        if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                            score += 120;
+                        } else {
+                            score += 100;
+                        }
                     }
                 }
             }
@@ -198,7 +214,7 @@ public class Ai {
         for (int i = 0; i < gameBoard[0].length - 1; i++) {
             for (int j = gameBoard.length - 1; j > 4; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 5;
+                    score += 8;
                 }
 
             }
@@ -206,7 +222,7 @@ public class Ai {
         for (int i = gameBoard[0].length - 1; i > 0; i--) {
             for (int j = gameBoard.length - 1; j > 3; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 5;
+                    score += 8;
                 }
             }
         }
@@ -226,7 +242,11 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 50;
+                    if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 120;
+                    } else {
+                        score += 100;
+                    }
                 }
             }
         }
@@ -243,7 +263,11 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 50;
+                    if (player.getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 120;
+                    } else {
+                        score += 100;
+                    }
                 }
             }
         }
@@ -262,7 +286,7 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 5;
+                    score += 8;
                 }
             }
         }
@@ -279,7 +303,7 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 5;
+                    score += 8;
                 }
             }
         }
