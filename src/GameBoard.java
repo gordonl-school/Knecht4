@@ -21,6 +21,7 @@ public class GameBoard {
         int userPick = scan.nextInt();
 
         if (userPick == 1) {
+            scan.nextLine();
             System.out.print("Enter Player 1: ");
             String name1 = scan.nextLine();
             System.out.print("Enter Player 2: ");
