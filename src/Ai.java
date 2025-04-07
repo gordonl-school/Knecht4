@@ -124,12 +124,95 @@ public class Ai {
         // Horizontal/Vertical/Diagonal checker for 4 in a row will be added here (will use the method in GameBoard) -> score += 500 if valid
 
         // Add a horizontal checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = 0; j < 3; j++) {
+                if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
+                    if (gameBoard[i][j + 2].getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 50;
+//                            player.win();
+//                            System.out.println("Horizontal check left to right");
+//                            return true;
+
+                    }
+                }
+            }
+        }
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = gameBoard[0].length - 1; j > 3; j--) {
+                if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
+                    if (gameBoard[i][j - 2].getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 50;
+//                            player.win();
+//                            System.out.println("Horizontal check right to left");
+//                            return true;
+
+                    }
+                }
+            }
+        }
 
         // Add a horizontal checker here that checks if this (symbol in the param) has 2 in a row -> if so, add score += 5
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = 0; j < 2; j++) {
+                if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
+                    score += 5;
+//                            player.win();
+//                            System.out.println("Horizontal check left to right");
+//                            return true;
+
+                }
+            }
+        }
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            for (int j = gameBoard[0].length - 1; j > 4; j--) {
+                if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
+                    score += 5;
+//                            player.win();
+//                            System.out.println("Horizontal check right to left");
+//                            return true;
+
+
+                }
+            }
+        }
 
         // Add a vertical checker here that checks if this (symbol in the param) has 3 in a row -> if so, add score += 50
+        for (int i = 0; i < gameBoard[0].length - 1; i++) {
+            for (int j = gameBoard.length - 1; j > 3; j--) {
+                if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
+                    if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 50;
+                    }
+                }
+
+            }
+        }
+        for (int i = gameBoard[0].length - 1; i > 0; i--) {
+            for (int j = gameBoard.length - 1; j > 2; j--) {
+                if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
+                    if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
+                        score += 50;
+                    }
+                }
+            }
+        }
 
         // Add a vertical checker here that checks if this (symbol in the param) has 2 in a row -> if so, add score += 5
+        for (int i = 0; i < gameBoard[0].length - 1; i++) {
+            for (int j = gameBoard.length - 1; j > 4; j--) {
+                if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
+                    score += 5;
+                }
+
+            }
+        }
+        for (int i = gameBoard[0].length - 1; i > 0; i--) {
+            for (int j = gameBoard.length - 1; j > 3; j--) {
+                if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
+                    score += 5;
+                }
+            }
+        }
 
         //-------------------- FOR ME TO DO ------------------------
         // Diagonal checker for 3 in a row
