@@ -6,6 +6,7 @@ import java.util.ArrayList;
  // https://gist.github.com/Da9el00/c6a4794c17039a7d62761a256d1b4c93 (open source for tic tac toe min max in java)
  // A professor (https://courses.cs.washington.edu/courses/cse332/16au/handouts/games.pdf)
  // Michael Madrid
+ // Mr.Miller
  // Thanks to Google
  */
 public class Ai {
@@ -13,10 +14,7 @@ public class Ai {
     private static Player AI = new Player("\uD83C\uDF4A", "AI");;
     private static Space[][] copyOfMain;
 
-    public Ai() {
-//        HUMAN = new Player("\uD83D\uDD34", "HUMAN");
-//        AI = new Player("\uD83D\uDFE2", "AI");
-    }
+    public Ai() {}
 
     public static int minmax(Space[][] gameBoard, int depth, int end, boolean maximizingPlayer) {
         if (depth == 0 || isTerminal(gameBoard)) {
@@ -130,7 +128,7 @@ public class Ai {
                 }
             }
         }
-        return (aiCount - humanCount) * 3;
+        return (int) ((aiCount - humanCount) * 2.5);
     }
 
     private static int evaluateLines(Space[][] gameBoard, String symbol, Player player) {
@@ -149,7 +147,7 @@ public class Ai {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j + 2].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 128;
+                            score += 138;
                         } else {
                             score += 100;
                         }
@@ -165,7 +163,7 @@ public class Ai {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[i][j - 2].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 128;
+                            score += 138;
                         } else {
                             score += 100;
                         }
@@ -181,7 +179,7 @@ public class Ai {
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = 0; j < 2; j++) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j + 1].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 8;
+                    score += 5;
 //                            player.win();
 //                            System.out.println("Horizontal check left to right");
 //                            return true;
@@ -191,7 +189,7 @@ public class Ai {
         for (int i = gameBoard.length - 1; i >= 0; i--) {
             for (int j = gameBoard[0].length - 1; j > 4; j--) {
                 if (gameBoard[i][j].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[i][j - 1].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 8;
+                    score += 5;
 //                            player.win();
 //                            System.out.println("Horizontal check right to left");
 //                            return true;
@@ -205,7 +203,7 @@ public class Ai {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 128;
+                            score += 138;
                         } else {
                             score += 100;
                         }
@@ -219,7 +217,7 @@ public class Ai {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
                     if (gameBoard[j - 2][i].getSymbol().equals(HUMAN.getSymbol())) {
                         if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                            score += 128;
+                            score += 138;
                         } else {
                             score += 100;
                         }
@@ -232,7 +230,7 @@ public class Ai {
         for (int i = 0; i < gameBoard[0].length - 1; i++) {
             for (int j = gameBoard.length - 1; j > 4; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 8;
+                    score += 5;
                 }
 
             }
@@ -240,7 +238,7 @@ public class Ai {
         for (int i = gameBoard[0].length - 1; i > 0; i--) {
             for (int j = gameBoard.length - 1; j > 3; j--) {
                 if (gameBoard[j][i].getSymbol().equals(HUMAN.getSymbol()) && gameBoard[j - 1][i].getSymbol().equals(HUMAN.getSymbol())) {
-                    score += 8;
+                    score += 5;
                 }
             }
         }
@@ -261,7 +259,7 @@ public class Ai {
                 }
                 if (win) {
                     if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 128;
+                        score += 138;
                     } else {
                         score += 100;
                     }
@@ -282,7 +280,7 @@ public class Ai {
                 }
                 if (win) {
                     if (player.getSymbol().equals(HUMAN.getSymbol())) {
-                        score += 128;
+                        score += 138;
                     } else {
                         score += 100;
                     }
@@ -304,7 +302,7 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 8;
+                    score += 5;
                 }
             }
         }
@@ -321,7 +319,7 @@ public class Ai {
                     row--;
                 }
                 if (win) {
-                    score += 8;
+                    score += 5;
                 }
             }
         }

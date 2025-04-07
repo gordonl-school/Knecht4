@@ -123,6 +123,9 @@ public class GameBoard {
 
     public void printBoard() {
 //        System.out.print("-------------------------------");
+        String connect4 = Colors.BLUE + "Connect 4" + Colors.RESET;
+        System.out.println("         ———————————");
+        System.out.println("         |" + connect4 + "|         ");
         System.out.print("———————————————————————————————");
         System.out.println();
         for (int i = 0; i < gameBoard.length; i++) {
