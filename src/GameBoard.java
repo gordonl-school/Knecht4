@@ -6,6 +6,8 @@ public class GameBoard {
     private Player player2;
     private String player1Symbol;
     private String player2Symbol;
+    private int aiChosenCol;
+    private int difficulty;
     private Scanner scan;
 
     public GameBoard() {
@@ -33,11 +35,18 @@ public class GameBoard {
             player2 = new Player(player2Symbol, name2);
             setUpBoard();
         } else if (userPick == 2) {
+            System.out.println("1. Easy");
+            System.out.println("2. Medium");
+            System.out.println("3. Hard");
+            System.out.print("Choose the difficulty: ");
+            difficulty = scan.nextInt();
             scan.nextLine();
             System.out.print("Enter Player Name: ");
             String name1 = scan.nextLine();
             System.out.println("User symbol: " + "\uD83D\uDD34"); // This is a red circle
             System.out.println("AI symbol: " + "\uD83C\uDF4A"); // This is a green circle
+            player1Symbol = "\uD83D\uDD34";
+            player2Symbol = "\uD83C\uDF4A";
             player1 = new Player("\uD83D\uDD34", name1);
             player2 = new Player("\uD83C\uDF4A", "AI");
             setUpBoard();
@@ -99,11 +108,21 @@ public class GameBoard {
                     }
                 }
             } else {
-                int aiChosenCol = Ai.minmax(gameBoard, 2, 2, true);
+                if (difficulty == 1) {
+                    aiChosenCol = Ai.minmax(gameBoard, 4, 4, true);
+                } else if (difficulty == 2) {
+                    aiChosenCol = Ai.minmax(gameBoard, 3, 3, true);
+                } else {
+                    aiChosenCol = Ai.minmax(gameBoard, 2, 2, true);
+                }
+                System.out.println("AI COL: " + aiChosenCol);
                 move(aiChosenCol, player2);
             }
             clear();
             printBoard();
+            if (userPick == 2) {
+                System.out.println(Colors.PURPLE + "AI placed a piece at column " + aiChosenCol + Colors.RESET);
+            }
             if (checkWin(player2, gameBoard, false)) {
                 System.exit(0);
             }

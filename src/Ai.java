@@ -85,14 +85,15 @@ public class Ai {
         return newBoard;
     }
 
-    private static void applyMove(Space[][] board, int col, Player player) {
-        for (int row = board.length - 1; row >= 0; row--) {
-            if (board[row][col-1].getSymbol().equals("\uD83D\uDD18")) {
-                board[row][col-1] = new Space(player.getSymbol());
+    private static void applyMove(Space[][] gameBoard, int col, Player player) {
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
+            if (gameBoard[i][col - 1].getSymbol().equals("\uD83D\uDD18")) {
+                gameBoard[i][col - 1] = new Space(player.getSymbol());
                 break;
             }
         }
     }
+
 
     private static int evaluateBoard(Space[][] gameBoard) {
         int score = 0;
